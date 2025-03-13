@@ -1,14 +1,24 @@
 import { Faucet } from '@/components'
 import '@/global.css'
-import { useGetBalance } from '@/hooks'
+import { useAfterMath, useGetBalance } from '@/hooks'
 import { ConnectButton, useCurrentAccount } from '@mysten/dapp-kit'
 import '@mysten/dapp-kit/dist/index.css'
+
+const MyComp = () => {
+  const data = useAfterMath()
+  console.log(data)
+
+  return <div>AfterMath</div>
+}
 
 export function App() {
   const account = useCurrentAccount()
   const address = account?.address || ''
 
   const { data } = useGetBalance()
+
+  const afterMath = useAfterMath()
+  console.log(afterMath)
 
   console.log(data)
 
@@ -20,6 +30,7 @@ export function App() {
       </div>
 
       <div>Address: {address}</div>
+      <MyComp />
     </div>
   )
 }

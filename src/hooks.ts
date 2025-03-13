@@ -1,4 +1,21 @@
+import { DEFAULT_NET_WORK } from '@/components/wallet-provider'
 import { useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit'
+import { Aftermath } from 'aftermath-ts-sdk'
+import { useEffect, useRef } from 'react'
+
+let isInitialized = false
+export function useAfterMath() {
+  const instance = useRef(new Aftermath(DEFAULT_NET_WORK))
+
+  useEffect(() => {
+    if (!isInitialized) {
+      instance.current.init()
+      isInitialized = true
+    }
+  }, [])
+
+  return instance.current
+}
 
 export function useCoinData(coinType: string = '0x2::sui::SUI') {
   return useSuiClientQuery(
