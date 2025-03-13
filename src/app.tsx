@@ -1,8 +1,10 @@
-import { Faucet } from '@/components'
+import { DecimalInput, Faucet } from '@/components'
 import '@/global.css'
 import { useAfterMath, useGetBalance } from '@/hooks'
 import { ConnectButton, useCurrentAccount } from '@mysten/dapp-kit'
 import '@mysten/dapp-kit/dist/index.css'
+import { Coin } from 'aftermath-ts-sdk'
+import { useState } from 'react'
 
 const MyComp = () => {
   const data = useAfterMath()
@@ -15,10 +17,11 @@ export function App() {
   const account = useCurrentAccount()
   const address = account?.address || ''
 
+  const [amount, setAmount] = useState('')
+
   const { data } = useGetBalance()
 
-  const afterMath = useAfterMath()
-  console.log(afterMath)
+  console.log(Coin.balanceWithDecimals(10000000000, 9))
 
   console.log(data)
 
@@ -30,6 +33,7 @@ export function App() {
       </div>
 
       <div>Address: {address}</div>
+      <DecimalInput value={amount} onChange={setAmount} />
       <MyComp />
     </div>
   )
