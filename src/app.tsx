@@ -1,26 +1,26 @@
-import { Button } from '@/components/ui/button'
+import { Faucet } from '@/components'
 import '@/global.css'
-import viteLogo from '/vite.svg'
+import { useGetBalance } from '@/hooks'
+import { ConnectButton, useCurrentAccount } from '@mysten/dapp-kit'
+import '@mysten/dapp-kit/dist/index.css'
 
 export function App() {
+  const account = useCurrentAccount()
+  const address = account?.address || ''
+
+  const { data } = useGetBalance()
+
+  console.log(data)
+
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
+    <div className="bg-secondary m-auto my-[5%] flex max-w-md flex-col gap-6 divide-y-2 rounded-xl border p-6 shadow-sm">
+      <div className="py-4">
+        <ConnectButton />
+        <Faucet />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button>My Button</Button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      <div>Address: {address}</div>
+    </div>
   )
 }
 
