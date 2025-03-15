@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 
 export const DEFAULT_NET_WORK = 'devnet'
+export const SUI_COIN_TYPE = '0x2::sui::SUI'
 
 // Config options for the networks you want to connect to
 const { networkConfig } = createNetworkConfig({

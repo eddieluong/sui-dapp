@@ -24,7 +24,9 @@ export function useAfterMath() {
   return aftermath
 }
 
-export function useCoinData(coinType: string = '0x2::sui::SUI') {
+import { SUI_COIN_TYPE } from '@/components/wallet-provider'
+
+export function useCoinData(coinType: string = SUI_COIN_TYPE) {
   const afterMath = useAfterMath()
   const coin = afterMath?.Coin(coinType)
 
@@ -40,7 +42,7 @@ export function useCoinData(coinType: string = '0x2::sui::SUI') {
   })
 }
 
-export function useGetBalance(coinType: string = '0x2::sui::SUI') {
+export function useGetBalance(coinType: string = SUI_COIN_TYPE) {
   const account = useCurrentAccount()
   const address = account?.address ?? ''
 

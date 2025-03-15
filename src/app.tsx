@@ -1,4 +1,5 @@
 import { AmountInput, Button, Faucet } from '@/components'
+import { SUI_COIN_TYPE } from '@/components/wallet-provider'
 import '@/global.css'
 import { ConnectButton, ConnectModal, useCurrentWallet } from '@mysten/dapp-kit'
 import '@mysten/dapp-kit/dist/index.css'
@@ -7,24 +8,25 @@ import { useCallback, useState } from 'react'
 
 const SwapButton = ({ onConfirmSwap }: { onConfirmSwap: VoidFunction }) => {
   const wallet = useCurrentWallet()
-  if (!wallet.isConnected) {
+
+  if (wallet.isConnected) {
     return (
-      <ConnectModal
-        trigger={
-          <Button size="xl" className="w-full" disabled={wallet.isConnecting}>
-            Connect wallet
-          </Button>
-        }
-      />
+      <div>
+        <Button size="xl" className="w-full" onClick={onConfirmSwap}>
+          Confirm and Swap
+        </Button>
+      </div>
     )
   }
 
   return (
-    <div>
-      <Button size="xl" className="w-full" onClick={onConfirmSwap}>
-        Confirm and Swap
-      </Button>
-    </div>
+    <ConnectModal
+      trigger={
+        <Button size="xl" className="w-full" disabled={wallet.isConnecting}>
+          Connect wallet
+        </Button>
+      }
+    />
   )
 }
 
@@ -46,7 +48,7 @@ export function App() {
         <AmountInput
           label="You pay"
           value={amount}
-          coinType="0x2::sui::SUI"
+          coinType={SUI_COIN_TYPE}
           onChange={(am) => setAmount(am)}
         />
         <Button
