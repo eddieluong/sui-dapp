@@ -1,33 +1,43 @@
-import { DEFAULT_NET_WORK } from '@/components/wallet-provider'
 import { useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit'
+import { getFullnodeUrl } from '@mysten/sui/client'
+import { useQuery } from '@tanstack/react-query'
 import { Aftermath } from 'aftermath-ts-sdk'
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
-let isInitialized = false
+let aftermathInstance: Aftermath | null = null
 export function useAfterMath() {
-  const instance = useRef(new Aftermath(DEFAULT_NET_WORK))
+  const [aftermath, setAftermath] = useState<Aftermath | null>(null)
 
   useEffect(() => {
-    if (!isInitialized) {
-      instance.current.init()
-      isInitialized = true
+    if (!aftermathInstance) {
+      aftermathInstance = new Aftermath('MAINNET')
+      aftermathInstance
+        .init({ fullnodeUrl: getFullnodeUrl('mainnet') })
+        .then(() => {
+          setAftermath(aftermathInstance)
+        })
+    } else {
+      setAftermath(aftermathInstance)
     }
   }, [])
 
-  return instance.current
+  return aftermath
 }
 
 export function useCoinData(coinType: string = '0x2::sui::SUI') {
-  return useSuiClientQuery(
-    'getCoinMetadata',
-    {
-      coinType,
+  const afterMath = useAfterMath()
+  const coin = afterMath?.Coin(coinType)
+
+  return useQuery({
+    queryFn: async () => {
+      return await coin?.getCoinMetadata(coinType)
     },
-    {
-      queryKey: ['coinMetaData', coinType],
-      refetchOnWindowFocus: false,
-    }
-  )
+    enabled: !!coin,
+    queryKey: ['coinMetaData', coinType],
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+  })
 }
 
 export function useGetBalance(coinType: string = '0x2::sui::SUI') {

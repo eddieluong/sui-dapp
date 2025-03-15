@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback } from 'react'
 import { Input } from './ui'
 
-export interface Props
+export interface DecimalInputProps
   extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
     'type' | 'onChange' | 'onBlur' | 'value'
@@ -16,7 +16,7 @@ const DecimalInput = ({
   onChange,
   placeholder = '0.0',
   ...props
-}: Props) => {
+}: DecimalInputProps) => {
   const parseValue = useCallback((targetValue: string) => {
     let val = targetValue
     // Replace all commas with dots
