@@ -1,3 +1,4 @@
+import { SUI_COIN_TYPE } from '@/components/wallet-provider'
 import { useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit'
 import { getFullnodeUrl } from '@mysten/sui/client'
 import { useQuery } from '@tanstack/react-query'
@@ -23,8 +24,6 @@ export function useAfterMath() {
 
   return aftermath
 }
-
-import { SUI_COIN_TYPE } from '@/components/wallet-provider'
 
 export function useCoinData(coinType: string = SUI_COIN_TYPE) {
   const afterMath = useAfterMath()
