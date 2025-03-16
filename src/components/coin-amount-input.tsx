@@ -125,7 +125,9 @@ export const CoinAmountInput = forwardRef<CoinAmountInputRef, Props>(
     return (
       <div className="space-y-1 rounded-lg border p-4 shadow-sm">
         <div className="flex justify-between">
-          <div className="flex justify-between">{label}</div>
+          <div className="text-muted-foreground flex justify-between text-sm font-medium">
+            {label}
+          </div>
           {hasQuickSelect && (
             <div className="flex gap-1">
               <QuickSelectButton

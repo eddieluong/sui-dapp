@@ -1,9 +1,10 @@
-import { SUI_COIN_TYPE } from '@/components/wallet-provider'
+import { DEFAULT_NET_WORK, SUI_COIN_TYPE } from '@/components/wallet-provider'
 import { useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit'
 import { getFullnodeUrl } from '@mysten/sui/client'
 import { useQuery } from '@tanstack/react-query'
 import { Aftermath } from 'aftermath-ts-sdk'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 let aftermathInstance: Aftermath | null = null
 export function useAfterMath() {
@@ -11,12 +12,16 @@ export function useAfterMath() {
 
   useEffect(() => {
     if (!aftermathInstance) {
-      aftermathInstance = new Aftermath('MAINNET')
-      aftermathInstance
-        .init({ fullnodeUrl: getFullnodeUrl('mainnet') })
-        .then(() => {
-          setAftermath(aftermathInstance)
-        })
+      try {
+        aftermathInstance = new Aftermath('MAINNET')
+        aftermathInstance
+          .init({ fullnodeUrl: getFullnodeUrl(DEFAULT_NET_WORK) })
+          .then(() => {
+            setAftermath(aftermathInstance)
+          })
+      } catch (e) {
+        toast.error(String(e))
+      }
     } else {
       setAftermath(aftermathInstance)
     }

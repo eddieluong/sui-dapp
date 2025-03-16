@@ -26,7 +26,8 @@ export const Faucet = () => {
       }
 
       return res.transferredGasObjects
-    } catch {
+    } catch (e) {
+      toast.error('Failed to faucet', { description: String(e) })
       throw new Error('Failed to faucet')
     }
   }, [address])
@@ -48,7 +49,6 @@ export const Faucet = () => {
 
             return `Balance changed: +${Coin.balanceWithDecimals(item.amount, 9)} SUI`
           },
-          error: 'Failed to faucet',
         })
       }}
     >
